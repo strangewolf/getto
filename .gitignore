@@ -1,0 +1,81 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+# dependencies
+node_modules
+
+# Next.js
+.next/
+out/
+build/
+dist/
+dist-ssr/
+*.local
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env*.local
+.env.production
+.env.development
+.env.staging
+.env.beta
+.env.prod
+.env.production.sh
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Test
+.coverage
+.nyc_output
+
+# Editor directories and files
+.vscode/*
+.cursor/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.cursorrules
+
+# OS
+Thumbs.db
+
+
+# -----------------------------------------------------------------
+# SOURCE CODE
+# -----------------------------------------------------------------
+.v0
+.documentations
+app_theme.example.json
+.src
+legacy-src
+.cursorrules
+.old_store
+.legacy-src
+.legacy-codebase
+.WarmStartBlockV2
