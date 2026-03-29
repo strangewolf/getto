@@ -1,0 +1,20 @@
+{
+  "name": "getto",
+  "private": true,
+  "description": "Supply chain demo — use npm run scripts from repo root (see README Quick start)",
+  "scripts": {
+    "docker:up": "docker compose up --build",
+    "docker:up:detached": "docker compose up -d --build",
+    "setup": "bash scripts/setup-local.sh",
+    "db": "docker compose up -d db",
+    "db:down": "docker compose down",
+    "db:create": "bash scripts/create-getto-database.sh",
+    "db:reset-volume": "bash scripts/reset-postgres-volume.sh",
+    "api:install": "cd api && python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt",
+    "api:migrate": "bash scripts/run-api-tool.sh alembic upgrade head",
+    "api:seed": "bash scripts/run-api-tool.sh python -m scripts.seed",
+    "api:dev": "cd api && ./.venv/bin/python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "web:install": "cd web && npm install",
+    "web:dev": "cd web && npm run dev"
+  }
+}

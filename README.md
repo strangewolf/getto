@@ -25,6 +25,176 @@ In Mira Bhayandar, poor coordination between logistics stakeholders and transpor
 
 ---
 
+## Quick start — run the project (beginner)
+
+This section is the shortest path from zero to a working app: **database → backend API → web UI**.
+
+### One command — DB + backend + frontend (Docker)
+
+**You need:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) running (no local Python/Node required for this path).
+
+From the **project root**:
+
+```bash
+docker compose up --build
+```
+
+Or the same via npm:
+
+```bash
+npm run docker:up
+```
+
+This starts **three** services: **Postgres**, the **FastAPI** backend (port **8000**), and the **Next.js** app (port **3000**). The API runs migrations on startup.
+
+- **Website:** http://localhost:3000  
+- **API docs:** http://localhost:8000/docs  
+
+**Load demo users and data** (first time, while containers are running — open another terminal):
+
+```bash
+docker compose exec api python -m scripts.seed
+```
+
+Then sign in with **admin@getto.demo** / **admin123**.
+
+Run in the **background** (terminals stay free): `docker compose up -d --build` or `npm run docker:up:detached`. Stop with `docker compose down`.
+
+---
+
+### Fastest path without Docker images (local Python + Node)
+
+1. **One-time setup** (creates env files, starts Postgres, installs API deps, runs migrations + seed):
+
+   ```bash
+   npm run setup
+   ```
+
+   Requires **Docker Desktop** running. On Mac/Linux use **Terminal** or **VS Code integrated terminal** from the project root.
+
+2. **Run the API** (terminal 1):
+
+   ```bash
+   npm run api:dev
+   ```
+
+3. **Run the website** (terminal 2 — first time only run `npm run web:install`):
+
+   ```bash
+   npm run web:install
+   npm run web:dev
+   ```
+
+4. Open **http://localhost:3000** and log in with **admin@getto.demo** / **admin123**.
+
+If `npm run setup` fails, use the manual steps below.
+
+---
+
+### What you need installed
+
+| Tool | Why |
+|------|-----|
+| **Docker Desktop** | Starts PostgreSQL in one command (easiest). You can use a local Postgres install instead if you know how. |
+| **Python 3.11+** | Runs the API (`api/`). |
+| **Node.js 18+** and **npm** | Runs the website (`web/`). |
+
+### Step 1 — config files (one-time)
+
+From the **project root** (the folder that contains `api/`, `web/`, `docker-compose.yml`):
+
+```bash
+cp env-example api/.env
+cp env-example web/.env.local
+```
+
+Defaults assume the API on port **8000**, the website on **3000**, and Postgres (from Docker) on host port **5433** — see `env-example` (`postgresql://getto:getto@127.0.0.1:5433/getto`). Port **5433** is used so Docker does not fight with a **local** Postgres on **5432** (common on Mac with Homebrew).
+
+### Step 2 — start the database
+
+```bash
+docker compose up -d
+```
+
+Wait a few seconds until Postgres is ready. (To stop later: `docker compose down`.)
+
+### Step 3 — backend (terminal 1)
+
+```bash
+cd api
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+alembic upgrade head
+python -m scripts.seed
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Leave this terminal open.
+
+- **API base URL:** http://localhost:8000  
+- **Interactive API docs (Swagger):** http://localhost:8000/docs  
+- **Health check:** http://localhost:8000/health  
+
+**Windows note:** use `.venv\Scripts\activate` instead of `source .venv/bin/activate`.
+
+### Step 4 — frontend (terminal 2)
+
+Open a **new** terminal, from the project root:
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+- **Website:** http://localhost:3000  
+
+### Step 5 — log in
+
+The seed script creates demo users. Easiest account:
+
+| Field | Value |
+|--------|--------|
+| Email | `admin@getto.demo` |
+| Password | `admin123` |
+
+You should land on the dashboard after signing in.
+
+---
+
+### Optional: npm scripts from the repo root (Mac / Linux)
+
+If you prefer shorthand after the first `api` setup (`venv` + `pip install` already done):
+
+| Command | What it does |
+|---------|----------------|
+| `npm run docker:up` | **Docker:** build and start Postgres + API + web (`docker compose up --build`) |
+| `npm run docker:up:detached` | Same, but detached (`-d`) |
+| `npm run setup` | **First-time:** env files, Docker Postgres only, venv, migrate, seed (Mac/Linux; needs Docker running) |
+| `npm run db` | `docker compose up -d` (Postgres only) |
+| `npm run api:migrate` | Run Alembic migrations |
+| `npm run api:seed` | Load demo data |
+| `npm run api:dev` | Start the API (reload on change) |
+| `npm run web:install` | Install web dependencies |
+| `npm run web:dev` | Start the Next.js dev server |
+
+First-time API setup still needs a venv and install, e.g. `npm run api:install` from the root (creates `api/.venv` and installs Python packages).
+
+---
+
+### If something breaks (short)
+
+- **`npm run setup` fails at Docker** — Start **Docker Desktop** (or Podman) and wait until it is fully running, then run `npm run setup` again. If you do not use Docker, install PostgreSQL locally, set `DATABASE_URL` in `api/.env`, then from `api/` run: `alembic upgrade head` and `python -m scripts.seed` (with your venv activated).
+- **`database "getto" does not exist`** — Start Postgres: `docker compose up -d db`, then create the DB: `npm run db:create`. If you had an old Docker volume from before `POSTGRES_DB` was set, reset it (**deletes local DB data**): `npm run db:reset-volume`, then `npm run setup` or `alembic upgrade head` + `python -m scripts.seed` from `api/`.
+- **`role "getto" does not exist`** — Usually the app is talking to **Homebrew Postgres on 5432**, not the Docker container. This project maps Docker Postgres to host port **5433** so `DATABASE_URL` must end with **`127.0.0.1:5433`** (see `env-example`). Run `docker compose up -d db` and restart `npm run setup` after `cp env-example api/.env` if needed. Use `lsof -i :5432` / `lsof -i :5433` to see what is listening.
+- **Connection refused to Postgres** — Run `docker compose up -d db` and wait a few seconds.
+- **Port already in use** — Stop the other app, or change `8000` / `3000` in `api/.env` and `web/.env.local` (`DATABASE_URL` only if you changed Postgres).
+- **Login fails after seed** — Use `admin@getto.demo` / `admin123` (not `@getto.local`; the API validates emails).
+- **Empty database** — Run `alembic upgrade head` and `python -m scripts.seed` from the `api/` folder with `api/.env` present.
+
+---
+
 ## 1) Business Logic (primary focus)
 
 ### 1.1 Actors / stakeholders
