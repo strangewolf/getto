@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smart Login Portal — Next.js app (`web/`)
 
-## Getting Started
+This folder is the **full application**: React UI (App Router) and **API Route Handlers** under `app/api/`. Database access uses **Prisma** + **SQLite**.
 
-First, run the development server:
+> **Full project documentation** (setup, env vars, API overview, roles, troubleshooting) is in the **[repository root `README.md`](../README.md)**.
+
+---
+
+## Working in this directory
 
 ```bash
+cd web
+npm install
+cp ../env-example .env          # or copy .env.example → .env
+npx prisma migrate dev
+npm run db:seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App URL: **http://localhost:3000**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Useful commands
 
-## Learn More
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Development server (Turbopack) |
+| `npm run build` | `prisma generate` + production build |
+| `npm run start` | Production server (after `build`) |
+| `npm run lint` | ESLint |
+| `npm run db:migrate` | Create/apply migrations (`prisma migrate dev`) |
+| `npm run db:seed` | Reset and seed demo data |
+| `npm run db:push` | Push schema without a migration (quick experiments only) |
+| `npx prisma studio` | GUI for SQLite |
+| `npx prisma generate` | Regenerate Prisma Client after schema changes |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Key paths
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Path | Role |
+|------|------|
+| `app/(ops)/` | Logged-in pages (dashboard, orders, trips, …) |
+| `app/api/` | REST-style JSON API (`/api/...`) |
+| `app/login/` | Sign-in page |
+| `context/AuthContext.tsx` | Client auth state + token |
+| `lib/api.ts` | `fetch` helper (prefixes `/api`) |
+| `lib/prisma.ts` | Shared `PrismaClient` instance |
+| `lib/auth.ts` | Password hashing + JWT |
+| `lib/server/` | Route helpers, serializers, domain logic |
+| `prisma/schema.prisma` | Data model |
+| `prisma/seed.ts` | Demo data |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Next.js resources
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js documentation](https://nextjs.org/docs)
+- [Prisma + Next.js](https://www.prisma.io/docs/guides/nextjs)

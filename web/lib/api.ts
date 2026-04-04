@@ -1,4 +1,12 @@
-const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+function resolveUrl(path: string): string {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  const withApi = normalized.startsWith("/api") ? normalized : `/api${normalized}`;
+  const custom = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
+  if (custom) return `${custom}${withApi}`;
+  if (typeof window !== "undefined") return withApi;
+  const origin = (process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000").replace(/\/$/, "");
+  return `${origin}${withApi}`;
+}
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -22,7 +30,8 @@ export async function apiFetch<T>(
   if (options.json !== undefined) {
     (headers as Record<string, string>)["Content-Type"] = "application/json";
   }
-  const res = await fetch(`${API}${path}`, {
+  const url = resolveUrl(path);
+  const res = await fetch(url, {
     ...options,
     headers,
     body:
@@ -42,5 +51,3 @@ export async function apiFetch<T>(
   if (res.status === 204) return undefined as T;
   return res.json() as Promise<T>;
 }
-
-export { API };

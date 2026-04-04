@@ -1,14 +1,24 @@
-# Web (Next.js) — copy to web/.env.local
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+# =============================================================================
+# Smart Login Portal — environment template for web/.env
+# =============================================================================
+# Copy to web/.env from the repository root:
+#   cp env-example web/.env
+#
+# Paths in DATABASE_URL are relative to the web/ directory (where Prisma runs).
 
-# API — copy to api/.env
-#
-# Use when FastAPI runs ON YOUR MACHINE and Postgres is in Docker:  docker compose up -d db
-# Port 5433 on the host maps to Postgres in Docker (5432 inside the container). We avoid 5432 on the host
-# because Homebrew / local Postgres often uses 5432 — otherwise you connect to the wrong server and "role getto does not exist".
-# Use 127.0.0.1 (not "localhost") for predictable IPv4 routing.
-#
-# API inside Docker Compose uses host "db" and port 5432 on the Docker network (see docker-compose.yml).
-DATABASE_URL=postgresql://getto:getto@127.0.0.1:5433/getto
-JWT_SECRET=change-me-to-a-long-random-secret
+# SQLite database file (created after `npx prisma migrate dev`)
+DATABASE_URL="file:./prisma/dev.db"
+
+# Required. Used to sign JWT access tokens (HS256). Use a long random value
+# in any environment that is not purely local on your own machine.
+JWT_SECRET="change-me-to-a-long-random-secret"
+
+# -----------------------------------------------------------------------------
+# Optional — Next.js public variables (usually in web/.env.local)
+# -----------------------------------------------------------------------------
+# Base URL of this app (optional; some server code uses it for absolute URLs).
+# NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# Leave unset so the browser calls same-origin /api/*. Set only if the UI must
+# talk to the API on a different host (unusual for this project).
+# NEXT_PUBLIC_API_BASE_URL=

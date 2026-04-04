@@ -95,19 +95,19 @@ export default function TransfersPage() {
             render: (r) => {
               const t = r as Transfer;
               return (
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-2">
                   {t.status === "draft" ? (
                     <>
                       <button
                         type="button"
-                        className="rounded border border-zinc-300 px-2 py-0.5 text-xs hover:bg-zinc-50 dark:border-zinc-600 dark:hover:bg-zinc-900"
+                        className="min-h-10 rounded-lg border border-zinc-300 px-3 py-2 text-xs font-medium hover:bg-zinc-50 dark:border-zinc-600 dark:hover:bg-zinc-900 sm:min-h-0 sm:py-1"
                         onClick={() => void ship(t.id)}
                       >
                         Ship
                       </button>
                       <button
                         type="button"
-                        className="rounded border border-zinc-300 px-2 py-0.5 text-xs hover:bg-zinc-50 dark:border-zinc-600 dark:hover:bg-zinc-900"
+                        className="min-h-10 rounded-lg border border-zinc-300 px-3 py-2 text-xs font-medium hover:bg-zinc-50 dark:border-zinc-600 dark:hover:bg-zinc-900 sm:min-h-0 sm:py-1"
                         onClick={() => void cancel(t.id)}
                       >
                         Cancel
@@ -117,7 +117,7 @@ export default function TransfersPage() {
                   {t.status === "in_transit" ? (
                     <button
                       type="button"
-                      className="rounded border border-emerald-600 px-2 py-0.5 text-xs text-emerald-800 hover:bg-emerald-50 dark:text-emerald-200 dark:hover:bg-emerald-950/40"
+                      className="min-h-10 rounded-lg border border-emerald-600 px-3 py-2 text-xs font-medium text-emerald-800 hover:bg-emerald-50 dark:text-emerald-200 dark:hover:bg-emerald-950/40 sm:min-h-0 sm:py-1"
                       onClick={() => void receive(t.id)}
                     >
                       Receive

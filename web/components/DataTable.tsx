@@ -52,16 +52,16 @@ export function DataTable<T extends Record<string, unknown>>({
   };
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="-mx-1 overflow-x-auto rounded-lg border border-zinc-200 bg-white shadow-sm sm:mx-0 dark:border-zinc-800 dark:bg-zinc-950">
       <table
-        className={`w-full text-left text-sm ${dense ? "text-xs" : "text-sm"}`}
+        className={`w-full min-w-[32rem] text-left ${dense ? "text-xs" : "text-sm"}`}
       >
         <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
           <tr>
             {columns.map((c) => (
               <th
                 key={String(c.key)}
-                className="px-3 py-2 font-semibold text-zinc-700 dark:text-zinc-200"
+                className="whitespace-nowrap px-2 py-2.5 font-semibold text-zinc-700 sm:px-3 sm:py-2 dark:text-zinc-200"
               >
                 <button
                   type="button"
@@ -88,7 +88,7 @@ export function DataTable<T extends Record<string, unknown>>({
               {columns.map((c) => (
                 <td
                   key={String(c.key)}
-                  className="px-3 py-2 text-zinc-800 dark:text-zinc-100"
+                  className="max-w-[12rem] px-2 py-2.5 text-zinc-800 sm:max-w-none sm:px-3 sm:py-2 dark:text-zinc-100"
                 >
                   {c.render
                     ? c.render(row)
@@ -101,14 +101,14 @@ export function DataTable<T extends Record<string, unknown>>({
           ))}
         </tbody>
       </table>
-      <div className="flex items-center justify-between border-t border-zinc-200 px-3 py-2 text-xs text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">
-        <span>
+      <div className="flex flex-col gap-2 border-t border-zinc-200 px-2 py-3 text-xs text-zinc-600 sm:flex-row sm:items-center sm:justify-between sm:px-3 sm:py-2 dark:border-zinc-800 dark:text-zinc-400">
+        <span className="text-center sm:text-left">
           {sorted.length} rows · page {page + 1}/{totalPages}
         </span>
-        <div className="flex gap-2">
+        <div className="flex justify-center gap-2 sm:justify-end">
           <button
             type="button"
-            className="rounded border border-zinc-300 px-2 py-1 disabled:opacity-40 dark:border-zinc-600"
+            className="min-h-11 min-w-[4.5rem] rounded-lg border border-zinc-300 px-3 py-2 font-medium disabled:opacity-40 dark:border-zinc-600 sm:min-h-0 sm:min-w-0 sm:px-2 sm:py-1"
             disabled={page <= 0}
             onClick={() => setPage((p) => Math.max(0, p - 1))}
           >
@@ -116,7 +116,7 @@ export function DataTable<T extends Record<string, unknown>>({
           </button>
           <button
             type="button"
-            className="rounded border border-zinc-300 px-2 py-1 disabled:opacity-40 dark:border-zinc-600"
+            className="min-h-11 min-w-[4.5rem] rounded-lg border border-zinc-300 px-3 py-2 font-medium disabled:opacity-40 dark:border-zinc-600 sm:min-h-0 sm:min-w-0 sm:px-2 sm:py-1"
             disabled={page >= totalPages - 1}
             onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
           >

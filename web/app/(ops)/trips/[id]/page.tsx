@@ -49,15 +49,21 @@ export default function TripDetailPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold">Trip</h1>
-          <p className="font-mono text-xs text-zinc-500">{trip.id}</p>
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold sm:text-2xl">Trip</h1>
+          <p className="break-all font-mono text-xs text-zinc-500">{trip.id}</p>
         </div>
-        <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium uppercase dark:bg-zinc-900">{trip.status}</span>
+        <span className="w-fit rounded-full bg-zinc-100 px-3 py-1.5 text-xs font-medium uppercase dark:bg-zinc-900">
+          {trip.status}
+        </span>
       </div>
       {trip.status === "planned" ? (
-        <button type="button" onClick={() => void dispatch()} className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800">
+        <button
+          type="button"
+          onClick={() => void dispatch()}
+          className="w-full min-h-11 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-800 sm:w-auto sm:min-h-0 sm:py-2"
+        >
           Dispatch
         </button>
       ) : null}
