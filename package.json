@@ -1,5 +1,5 @@
 {
-  "name": "Smart Login Portal",
+  "name": "smart-login-portal",
   "private": true,
   "description": "Smart Login Portal — Next.js + SQLite supply chain demo (see README)",
   "scripts": {
