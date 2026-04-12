@@ -6,7 +6,7 @@ import { apiFetch } from "@/lib/api";
 type Loc = { id: string; name: string; type: string };
 type Sku = { id: string; sku_code: string; name: string };
 
-export function OrderCreateForm({ onCreated }: { onCreated: () => void }) {
+export function OrderCreateForm({ onCreated }: { onCreated: () => void | Promise<void> }) {
   const [retailers, setRetailers] = useState<Loc[]>([]);
   const [warehouses, setWarehouses] = useState<Loc[]>([]);
   const [skus, setSkus] = useState<Sku[]>([]);
@@ -47,7 +47,7 @@ export function OrderCreateForm({ onCreated }: { onCreated: () => void }) {
           priority: 0,
         },
       });
-      onCreated();
+      await Promise.resolve(onCreated());
     } catch (ex) {
       setErr(ex instanceof Error ? ex.message : "Failed");
     } finally {
@@ -56,68 +56,75 @@ export function OrderCreateForm({ onCreated }: { onCreated: () => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-3 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
-      <div className="text-sm font-semibold">New replenishment order</div>
-      {err ? <div className="text-sm text-red-600">{err}</div> : null}
-      <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400">
-        Retailer
-        <select
-          className="mt-1 w-full rounded border border-zinc-300 bg-white px-2 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
-          value={retailerId}
-          onChange={(e) => setRetailerId(e.target.value)}
-        >
-          {retailers.map((x) => (
-            <option key={x.id} value={x.id}>
-              {x.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400">
-        Warehouse
-        <select
-          className="mt-1 w-full rounded border border-zinc-300 bg-white px-2 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
-          value={warehouseId}
-          onChange={(e) => setWarehouseId(e.target.value)}
-        >
-          {warehouses.map((x) => (
-            <option key={x.id} value={x.id}>
-              {x.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400">
-        SKU
-        <select
-          className="mt-1 w-full rounded border border-zinc-300 bg-white px-2 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
-          value={skuId}
-          onChange={(e) => setSkuId(e.target.value)}
-        >
-          {skus.map((x) => (
-            <option key={x.id} value={x.id}>
-              {x.sku_code} — {x.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400">
-        Quantity
-        <input
-          type="number"
-          min={0.01}
-          step={0.01}
-          className="mt-1 w-full rounded border border-zinc-300 bg-white px-2 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
-          value={qty}
-          onChange={(e) => setQty(Number(e.target.value))}
-        />
-      </label>
+    <form
+      onSubmit={submit}
+      className="card-chamfer space-y-4 border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950 sm:p-5"
+    >
+      <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">New replenishment order</div>
+      {err ? <div className="text-sm text-red-600 dark:text-red-400">{err}</div> : null}
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-4">
+        <label className="flex flex-col gap-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">
+          Retailer
+          <select
+            className="input-chamfer py-2.5 text-sm"
+            value={retailerId}
+            onChange={(e) => setRetailerId(e.target.value)}
+          >
+            {retailers.map((x) => (
+              <option key={x.id} value={x.id}>
+                {x.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">
+          Warehouse
+          <select
+            className="input-chamfer py-2.5 text-sm"
+            value={warehouseId}
+            onChange={(e) => setWarehouseId(e.target.value)}
+          >
+            {warehouses.map((x) => (
+              <option key={x.id} value={x.id}>
+                {x.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">
+          SKU
+          <select
+            className="input-chamfer py-2.5 text-sm"
+            value={skuId}
+            onChange={(e) => setSkuId(e.target.value)}
+          >
+            {skus.map((x) => (
+              <option key={x.id} value={x.id}>
+                {x.sku_code} — {x.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">
+          Quantity
+          <input
+            type="number"
+            min={0.01}
+            step={0.01}
+            className="input-chamfer py-2.5 text-sm"
+            value={qty}
+            onChange={(e) => setQty(Number(e.target.value))}
+          />
+        </label>
+      </div>
+
       <button
         type="submit"
         disabled={busy}
-        className="w-full rounded-lg bg-emerald-700 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-800 disabled:opacity-50"
+        className="chamfer-control w-full bg-primary-700 px-3 py-2.5 text-sm font-medium text-white hover:bg-primary-800 disabled:opacity-50 sm:max-w-xs"
       >
-        {busy ? "Submitting…" : "Create order"}
+        {busy ? "Creating…" : "Create order"}
       </button>
     </form>
   );

@@ -1,14 +1,13 @@
 {
   "name": "smart-login-portal",
   "private": true,
-  "description": "Smart Login Portal — Next.js + SQLite supply chain demo (see README)",
+  "description": "Smart Login Portal — frontend-only supply chain demo (see README)",
   "scripts": {
+    "postinstall": "npm install --prefix web",
     "dev": "npm run dev --prefix web",
     "build": "npm run build --prefix web",
     "start": "npm run start --prefix web",
     "install:web": "npm install --prefix web",
-    "db:migrate": "npm run db:migrate --prefix web",
-    "db:seed": "npm run db:seed --prefix web",
     "lint": "npm run lint --prefix web"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"

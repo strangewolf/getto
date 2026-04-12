@@ -1,24 +1,7 @@
-# =============================================================================
-# Smart Login Portal — environment template for web/.env
-# =============================================================================
-# Copy to web/.env from the repository root:
-#   cp env-example web/.env
+# Frontend-only POC: no environment variables are required.
+# Copy this file to web/.env only if you want local overrides.
 #
-# Paths in DATABASE_URL are relative to the web/ directory (where Prisma runs).
-
-# SQLite database file (created after `npx prisma migrate dev`)
-DATABASE_URL="file:./prisma/dev.db"
-
-# Required. Used to sign JWT access tokens (HS256). Use a long random value
-# in any environment that is not purely local on your own machine.
-JWT_SECRET="change-me-to-a-long-random-secret"
-
-# -----------------------------------------------------------------------------
-# Optional — Next.js public variables (usually in web/.env.local)
-# -----------------------------------------------------------------------------
-# Base URL of this app (optional; some server code uses it for absolute URLs).
+# Optional:
 # NEXT_PUBLIC_BASE_URL=http://localhost:3000
-
-# Leave unset so the browser calls same-origin /api/*. Set only if the UI must
-# talk to the API on a different host (unusual for this project).
-# NEXT_PUBLIC_API_BASE_URL=
+#
+# Location map: Leaflet + OSM (no API key).

@@ -38,7 +38,7 @@ export default function OrderDetailPage() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-2xl font-bold">Order detail</h1>
-        <button type="button" onClick={() => void allocate()} className="rounded-lg bg-emerald-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-800">
+        <button type="button" onClick={() => void allocate()} className="chamfer-control bg-primary-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-800">
           Allocate inventory
         </button>
       </div>

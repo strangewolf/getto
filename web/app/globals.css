@@ -1,31 +1,58 @@
+@import "leaflet/dist/leaflet.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark-first shell (React Bits–style); html carries .dark from layout. */
+:root,
+.dark {
+  --background: #060010;
+  --foreground: #f4f4f5;
+  /* Aligns with Magic Bento --purple-primary */
+  --color-accent: #8400ff;
+  --color-accent-glow: rgba(132, 0, 255, 0.22);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  /* Safe areas for notched phones (PWA / mobile web) */
+  font-family: var(--font-bits-body), ui-sans-serif, system-ui, sans-serif;
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
 }
 
-/* Improve text wrapping on narrow screens */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /** Typography pairing aligned with React Bits marketing / bento demos */
+  .bits-type-display {
+    font-family: var(--font-bits-display), var(--font-bits-body), system-ui, sans-serif;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  .bits-type-body {
+    font-family: var(--font-bits-body), system-ui, sans-serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Chamfer: top-left + bottom-right only (see tailwind chamferPolygonTLBR). Pair with plugin classes. */
+@layer components {
+  .btn-chamfer {
+    @apply chamfer-control inline-flex items-center justify-center font-medium transition-colors;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600;
+  }
+
+  .input-chamfer {
+    @apply chamfer-input w-full border border-zinc-300 bg-white px-3 py-2 text-zinc-900;
+    @apply focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500/40 dark:border-zinc-600 dark:bg-zinc-950 dark:text-zinc-50;
+  }
+
+  .card-chamfer {
+    @apply chamfer-card border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950;
   }
 }

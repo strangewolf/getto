@@ -14,7 +14,7 @@ export function TripStopList({ tripId, stops }: { tripId: string; stops: Stop[] 
   return (
     <div className="space-y-2">
       {stops.map((s) => (
-        <div key={s.id} className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40">
+        <div key={s.id} className="chamfer-card border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="text-sm font-medium">
               Stop {s.sequence}{" "}
@@ -30,7 +30,7 @@ export function TripStopList({ tripId, stops }: { tripId: string; stops: Stop[] 
             ))}
           </ul>
           <div className="mt-2">
-            <Link className="text-xs text-emerald-700 hover:underline dark:text-emerald-400" href={`/driver/trips/${tripId}?stop=${s.id}`}>
+            <Link className="text-xs text-primary-700 hover:underline dark:text-primary-400" href={`/driver/trips/${tripId}?stop=${s.id}`}>
               Open driver POD
             </Link>
           </div>

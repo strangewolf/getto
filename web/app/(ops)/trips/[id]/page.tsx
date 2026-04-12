@@ -62,7 +62,7 @@ export default function TripDetailPage() {
         <button
           type="button"
           onClick={() => void dispatch()}
-          className="w-full min-h-11 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-800 sm:w-auto sm:min-h-0 sm:py-2"
+          className="chamfer-control w-full min-h-11 bg-primary-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-800 sm:w-auto sm:min-h-0 sm:py-2"
         >
           Dispatch
         </button>

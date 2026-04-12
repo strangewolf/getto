@@ -15,7 +15,7 @@ export default function OpsLayout({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-zinc-100 px-4 text-center text-zinc-600 dark:bg-zinc-950 dark:text-zinc-400">
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#060010] px-4 text-center text-zinc-400">
         Loading…
       </div>
     );

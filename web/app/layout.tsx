@@ -1,11 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Manrope, Syne } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
+import { InitialLoader } from "@/components/InitialLoader";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/** React Bits–style display + body pairing (Syne / Manrope). */
+const fontBitsDisplay = Syne({
+  variable: "--font-bits-display",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const fontBitsBody = Manrope({
+  variable: "--font-bits-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -22,10 +32,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f4f5" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
-  ],
+  themeColor: "#060010",
 };
 
 export default function RootLayout({
@@ -34,9 +41,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body
+        className={`${fontBitsDisplay.variable} ${fontBitsBody.variable} ${geistMono.variable} min-h-[100dvh] bg-background font-sans text-foreground antialiased`}
+      >
+        <ThemeProvider>
+          <AuthProvider>
+            <InitialLoader>{children}</InitialLoader>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
