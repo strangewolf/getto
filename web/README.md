@@ -45,6 +45,24 @@ Optional: add `NEXT_PUBLIC_BASE_URL=https://your-project.vercel.app`.
 
 ---
 
+## Netlify Deploy
+
+This repo also includes a root-level `netlify.toml` for the `web/` app.
+
+CLI flow from the repo root:
+
+```bash
+npm install -g netlify-cli
+netlify login
+netlify init
+netlify deploy
+netlify deploy --prod
+```
+
+Netlify will build from `web/` using `npm run build` on Node `20`.
+
+---
+
 ## Key paths
 
 | Path | Role |

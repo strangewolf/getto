@@ -86,3 +86,6 @@ legacy-src
 .legacy-src
 .legacy-codebase
 .WarmStartBlockV2
+
+# Local Netlify folder
+.netlify

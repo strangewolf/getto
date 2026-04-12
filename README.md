@@ -175,18 +175,54 @@ The seeded **organization** display name is **Smart Login Portal Demo**.
 
 ## Deployment
 
-- This POC can be deployed to **Vercel** as a normal Next.js app without provisioning a database.
-- The frontend mock layer is enough for demos, walkthroughs, and portfolio-style hosting.
-- **Vercel setup**
-  1. Push this repo to GitHub.
-  2. Import the repo into Vercel.
-  3. Set the **Root Directory** to `web`.
-  4. Keep the default Next.js framework detection.
-  5. Deploy.
-- No environment variables are required for the current POC.
-- Optional: set `NEXT_PUBLIC_BASE_URL` to your Vercel URL if you want an explicit absolute base URL.
-- Important: app state lives in browser `localStorage`, so every browser/device gets its own separate demo data.
-- If you later want a real backend, add one deliberately instead of sneaking server code back into the POC.
+This app is a **frontend-only Next.js POC**, so deployment is simple:
+
+- No backend service
+- No database
+- No required secrets
+- No server-side API dependency for normal app usage
+
+The only thing to remember is that demo state lives in browser `localStorage`, so each browser/device gets its **own** copy of the data.
+
+### Vercel
+
+Use Vercel if you want the least-friction Next.js deployment.
+
+1. Push the repo to GitHub.
+2. Import the repo into Vercel.
+3. Set the **Root Directory** to `web`.
+4. Keep the detected **Next.js** framework preset.
+5. Deploy.
+
+Optional environment variable:
+
+- `NEXT_PUBLIC_BASE_URL=https://your-project.vercel.app`
+
+### Netlify
+
+This repo includes a root `netlify.toml` already configured for the `web/` app.
+
+CLI flow from the repo root:
+
+```bash
+npm install -g netlify-cli
+netlify login
+netlify init
+netlify deploy
+netlify deploy --prod
+```
+
+Netlify is configured to:
+
+- build from `web/`
+- run `npm run build`
+- use Node `20`
+
+### Recommendation
+
+- Use **Vercel** if the dashboard import works for you.
+- Use **Netlify CLI** if Vercel gives you trouble.
+- If you later want real multi-user/shared data, add a real backend on purpose instead of stuffing it back into this POC.
 
 ---
 
