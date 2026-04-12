@@ -208,8 +208,8 @@ CLI flow from the repo root:
 npm install -g netlify-cli
 netlify login
 netlify init
-netlify deploy
-netlify deploy --prod
+netlify deploy --build
+netlify deploy --build --prod
 ```
 
 Netlify is configured to:
@@ -217,6 +217,13 @@ Netlify is configured to:
 - build from `web/`
 - run `npm run build`
 - use Node `20`
+- rely on Netlify's Next.js support instead of publishing `web/.next` directly
+
+Important:
+
+- Set `Base directory` to `web`
+- Do not set `Publish directory` to `web` or `web/.next`
+- If you previously configured a custom publish directory in the Netlify UI, remove that override before redeploying
 
 ### Recommendation
 
