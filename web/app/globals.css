@@ -42,6 +42,10 @@ body {
 
 /* Chamfer: top-left + bottom-right only (see tailwind chamferPolygonTLBR). Pair with plugin classes. */
 @layer components {
+  .app-tooltip {
+    @apply pointer-events-none rounded-md border border-zinc-200/90 bg-white px-2.5 py-1.5 text-xs font-medium text-zinc-900 shadow-xl shadow-black/20 ring-1 ring-black/5;
+  }
+
   .btn-chamfer {
     @apply chamfer-control inline-flex items-center justify-center font-medium transition-colors;
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600;

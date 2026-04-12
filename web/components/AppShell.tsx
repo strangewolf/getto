@@ -131,7 +131,7 @@ function NavLinks({
       ? createPortal(
           <span
             role="tooltip"
-            className="pointer-events-none z-[10000] rounded-md border border-zinc-600 bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-100 shadow-xl shadow-black/40"
+            className="app-tooltip z-[10000]"
             style={tip.style}
           >
             {tip.label}
@@ -234,7 +234,7 @@ function SidebarFooter({
       ? createPortal(
           <span
             role="tooltip"
-            className="pointer-events-none z-[10000] rounded-md border border-zinc-600 bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-100 shadow-xl shadow-black/40"
+            className="app-tooltip z-[10000]"
             style={tip.style}
           >
             {tip.label}

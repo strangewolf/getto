@@ -31,6 +31,20 @@ App URL: **http://localhost:3000**
 
 ---
 
+## Vercel Deploy
+
+Deploy this folder as a **Vercel** project with:
+
+1. **Root Directory**: `web`
+2. **Framework Preset**: Next.js
+3. **Install Command**: default
+4. **Build Command**: default (`npm run build`)
+
+No database or backend setup is required for this POC.
+Optional: add `NEXT_PUBLIC_BASE_URL=https://your-project.vercel.app`.
+
+---
+
 ## Key paths
 
 | Path | Role |

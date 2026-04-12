@@ -175,8 +175,17 @@ The seeded **organization** display name is **Smart Login Portal Demo**.
 
 ## Deployment
 
-- This POC can be deployed as a normal Next.js app without provisioning a database.
+- This POC can be deployed to **Vercel** as a normal Next.js app without provisioning a database.
 - The frontend mock layer is enough for demos, walkthroughs, and portfolio-style hosting.
+- **Vercel setup**
+  1. Push this repo to GitHub.
+  2. Import the repo into Vercel.
+  3. Set the **Root Directory** to `web`.
+  4. Keep the default Next.js framework detection.
+  5. Deploy.
+- No environment variables are required for the current POC.
+- Optional: set `NEXT_PUBLIC_BASE_URL` to your Vercel URL if you want an explicit absolute base URL.
+- Important: app state lives in browser `localStorage`, so every browser/device gets its own separate demo data.
 - If you later want a real backend, add one deliberately instead of sneaking server code back into the POC.
 
 ---
